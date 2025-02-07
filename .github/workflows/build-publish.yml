@@ -17,5 +17,5 @@ jobs:
         with:
           keep_versions: 5
           package: ${{ matrix.package }}
-          tag: ${{ github.event.number }}
+          tag:
           tag_fallback: latest
