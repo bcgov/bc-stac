@@ -1,0 +1,6 @@
+apiVersion: v2
+name: bc-stac-api
+description: A Helm chart for deploying the bc-stac-api application.
+type: application
+version: 0.1.0
+appVersion: 1.0 # Replace with your application version

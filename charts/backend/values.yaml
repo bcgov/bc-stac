@@ -1,0 +1,45 @@
+replicaCount: 1
+image:
+  repository: bc-stac-api
+  tag: latest # Or a specific tag
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP # Or LoadBalancer if you need external access directly
+  port: 80 # External port
+  targetPort: 8080 # Container port
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 256Mi
+  limits:
+    cpu: 500m
+    memory: 512Mi
+
+configMap:
+  enabled: true
+  data:
+    APP_HOST: 0.0.0.0
+    POSTGRES_USER: "auser"
+    POSTGRES_PASS: "apassword"
+    POSTGRES_DBNAME: "bcstac"
+    POSTGRES_HOST_READER: 127.0.0.1
+    POSTGRES_HOST_WRITER: 127.0.0.1
+    POSTGRES_PORT: 5432
+    WEB_CONCURRENCY: 10
+    VSI_CACHE: TRUE
+    GDAL_HTTP_MERGE_CONSECUTIVE_RANGES: YES
+    GDAL_DISABLE_READDIR_ON_OPEN: "EMPTY_DIR"
+    DB_MIN_CONN_SIZE: 1
+    DB_MAX_CONN_SIZE: 1
+    USE_API_HYDRATE: false
+    PGHOST: 127.0.0.1
+    PGPORT: 5432
+    PGUSER: "postgres"
+    PGDATABASE: "bcstac"
+    PGPASSWORD: "apassword"
+
+route:
+  enabled: true
+  hostname: "" # Optional: Specify a hostname
