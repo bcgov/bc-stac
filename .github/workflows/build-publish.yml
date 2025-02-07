@@ -17,5 +17,5 @@ jobs:
         with:
           keep_versions: 5
           package: ${{ matrix.package }}
-          tag:
+          tag: latest
           tag_fallback: latest
