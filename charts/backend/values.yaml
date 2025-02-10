@@ -1,8 +1,9 @@
 replicaCount: 1
 image:
-  repository: bc-stac-api
+  registry: ghcr.io/bcgov
+  repository: bc-stac
   tag: latest # Or a specific tag
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
 
 service:
   type: ClusterIP # Or LoadBalancer if you need external access directly
@@ -11,18 +12,28 @@ service:
 
 resources:
   requests:
-    cpu: 100m
-    memory: 256Mi
+    cpu: 250m
+    memory: 250Mi
   limits:
-    cpu: 500m
-    memory: 512Mi
-
+    cpu: 250m
+    memory: 250Mi
+# secrets:
+#   - name: bcstac-backend
+#     valueFrom:
+#       sercretKeyRef:
+#         name: bcstac-backend
+#         key: POSTGRES_USER
+#   - name: bcstac-backend
+#     valueFrom:
+#       sercretKeyRef:
+#         name: bcstac-database
+#         key: POSTGRES_PASS
 configMap:
   enabled: true
   data:
     APP_HOST: 0.0.0.0
-    POSTGRES_USER: "auser"
-    POSTGRES_PASS: "apassword"
+    #POSTGRES_USER: "auser"
+    #POSTGRES_PASS: "apassword"
     POSTGRES_DBNAME: "bcstac"
     POSTGRES_HOST_READER: 127.0.0.1
     POSTGRES_HOST_WRITER: 127.0.0.1

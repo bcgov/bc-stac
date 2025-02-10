@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: {{ .Release.Name }}
-        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        image: "{{.Values.image.registry}}/{{.Values.image.repository}}/backend:{{.Values.image.tag}}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         ports:
         - containerPort: {{ .Values.service.targetPort }}
@@ -23,18 +23,18 @@ spec:
             {{- toYaml .Values.resources.requests | nindent 12 }}
           limits:
             {{- toYaml .Values.resources.limits | nindent 12 }}
-        livenessProbe:
-          httpGet:
-            path: {{ .Values.livenessProbe.path }}
-            port: {{ .Values.service.targetPort }}
-          initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
-          periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
-        readinessProbe:
-          httpGet:
-            path: {{ .Values.readinessProbe.path }}
-            port: {{ .Values.service.targetPort }}
-          initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
-          periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
+
+        env:
+        - name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              name: bcstac-backend
+              key: POSTGRES_USER
+        - name: POSTGRES_PASS
+          valueFrom:
+            secretKeyRef:
+              name: bcstac-database
+              key: POSTGRES_PASS
         envFrom:
         {{- if .Values.configMap.enabled }}
         - configMapRef:
