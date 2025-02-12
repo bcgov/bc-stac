@@ -28,7 +28,7 @@ spec:
         - name: POSTGRES_USER
           valueFrom:
             secretKeyRef:
-              name: bcstac-backend
+              name: pgstac-backend
               key: POSTGRES_USER
         - name: POSTGRES_PASS
           valueFrom:
