@@ -33,6 +33,11 @@ backend:
   #-- the deployment strategy, can be "Recreate" or "RollingUpdate"
   deploymentStrategy: Recreate
   #-- autoscaling for the component. it is optional and is an object.
+  image:
+    registry: ghcr.io/bcgov
+    repository: bc-stac
+    tag: latest # Or a specific tag
+    pullPolicy: Always
   autoscaling:
     #-- enable or disable autoscaling.
     enabled: true
@@ -66,6 +71,7 @@ backend:
       memory: 750Mi
   #-- the service for the component. for inter namespace communication, use the service name as the hostname.
   service:
+    # WB - NOT USED
     #-- the type of the service. it can be ClusterIP, NodePort, LoadBalancer, ExternalName. ClusterIP is the default and is recommended.
     type: ClusterIP
     port: 80 # this is the service port, where it will be exposed internal to the namespace.

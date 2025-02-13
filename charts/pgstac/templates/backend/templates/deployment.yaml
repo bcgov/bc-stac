@@ -34,14 +34,12 @@ spec:
           securityContext:
             {{- toYaml .Values.backend.securityContext | nindent 12 }}
           {{- end }}
-          image: "{{.Values.global.registry}}/{{.Values.global.repository}}/backend:{{ .Values.global.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: {{ default "Always" .Values.backend.imagePullPolicy }}
+          image: "{{.Values.backend.image.registry}}/{{.Values.backend.image.repository}}/backend:{{.Values.backend.image.tag}}"
+          imagePullPolicy: {{ .Values.backend.imagePullPolicy }}
           envFrom:
-            - secretRef:
-              name: {{.Release.Name}}-backend
             {{- if .Values.backend.configMap.enabled }}
             - configMapRef:
-              name: {{ .Release.Name }}-config
+                name: {{ .Release.Name }}-config
             {{- end }}
           env:
             - name: LOG_LEVEL
@@ -49,27 +47,27 @@ spec:
             - name: POSTGRES_USER
               valueFrom:
                 secretKeyRef:
-                  name: bcstac-backend
+                  name: {{.Release.Name}}-backend
                   key: POSTGRES_USER
             - name: POSTGRES_PASS
               valueFrom:
                 secretKeyRef:
-                  name: bcstac-database
+                  name: {{.Release.Name}}-database
                   key: password
             - name: PGDATABASE
               valueFrom:
                 secretKeyRef:
-                  name: pgstac-backend
+                  name: {{.Release.Name}}-backend
                   key: POSTGRES_DATABASE
             - name: PGUSER
               valueFrom:
                 secretKeyRef:
-                  name: bcstac-backend
+                  name: {{.Release.Name}}-backend
                   key: POSTGRES_USER
             - name: PGPASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: bcstac-database
+                  name: {{.Release.Name}}-database
                   key: password
             - name: POSTGRES_HOST_READER
               value: {{ include "fullname" . }}
