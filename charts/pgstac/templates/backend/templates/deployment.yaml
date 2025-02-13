@@ -70,11 +70,11 @@ spec:
                   name: {{.Release.Name}}-database
                   key: password
             - name: POSTGRES_HOST_READER
-              value: {{ include "fullname" . }}
+              value: {{ include "fullname" . }}-bitnamipg
             - name: POSTGRES_HOST_WRITER
-              value: {{ include "fullname" . }}
+              value: {{ include "fullname" . }}-bitnamipg
             - name: PGHOST
-              value: {{ include "fullname" . }}
+              value: {{ include "fullname" . }}-bitnamipg
           ports:
             - name: http
               containerPort: {{ .Values.backend.service.targetPort }}

@@ -13,10 +13,6 @@ spec:
       targetPort: 8080
       protocol: TCP
       name: http
-    - port: 5432
-      targetPort: 5432
-      protocol: TCP
-      name: database
   selector:
     {{- include "backend.selectorLabels" . | nindent 4 }}
 {{- end }}
