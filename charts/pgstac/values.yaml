@@ -48,20 +48,7 @@ backend:
     #-- the target cpu utilization percentage, is from request cpu and NOT LIMIT CPU.
     targetCPUUtilizationPercentage: 80
   #-- vault, for injecting secrets from vault. it is optional and is an object. it creates an initContainer which reads from vault and app container can source those secrets. for referring to a working example with vault follow this link: https://github.com/bcgov/onroutebc/blob/main/charts/onroutebc/values.yaml#L171-L186
-  vault:
-    #-- enable or disable vault.
-    enabled: false
-    #-- the role of the vault. it is required, #licenseplate-prod or licenseplate-nonprod, license plate is the namespace without env
-    role: ~
-    #-- the vault path where the secrets live. it is required, dev/api-1, dev/api-2, test/api-1 etc...
-    secretPaths:
-      - dev/api-1
-      - dev/api-2
-      - test/api-1
-      - test/api-2
-      - prod/api-1
-      - prod/api-2
-    #-- resources specific to vault initContainer. it is optional and is an object.
+
   resources:
     requests:
       cpu: 250m
@@ -76,6 +63,9 @@ backend:
     type: ClusterIP
     port: 80 # this is the service port, where it will be exposed internal to the namespace.
     targetPort: 3000 # this is container port where app listens on
+  route:
+    timeout: 300s
+    targetPort: 80 # match the service
   pdb:
     enabled: false # enable it in PRODUCTION for having pod disruption budget.
     minAvailable: 1 # the minimum number of pods that must be available during the disruption budget.
