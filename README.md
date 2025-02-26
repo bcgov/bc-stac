@@ -32,24 +32,50 @@ helm upgrade --install charts/pgstac/
 ```
 after deployment migrate to pgstac
 
-```
+```shell
+# set up a venv if you haven't already
 Python -m venv venv
 Source venv/bin/activate
 python -m pip install pypgstac[psycopg]
+
+# set the enviroment -- you need to get the pguser and pgpassword from your openshift deployment
 export PGHOST='127.0.0.1'
 export PGPORT='5432'
-export PGUSER='quickuser'
+export PGUSER='postres'
 export PGDATABASE='bcstac'
 export PGPASSWORD='quickpass'
 pypgstac migrate
 ```
+
+### Migrations - this needs to be done on database init
+
+There is a Python utility as part of PgSTAC ([pypgstac](https://stac-utils.github.io/pgstac/pypgstac/)) that includes a migration utility.
+To use:
+
+```shell
+# to get the name of the database pod use
+# oc get pods
+oc port-forward [pod name] 5432:5432
+pypgstac migrate
+```
+### Bulk Loading
+
+There is a Python utility for bulk load of STAC collections and items
+
+```shell
+pypgstac load collections test_data/stac_dem_collection.ndjson
+pypgstac load collections test_data/stac_pc_collection.ndjson
+pypgstac load items test_data/stac_dem_combined.ndjson
+pypgstac load items test_data/stac_pc_combined.ndjson
+```
+
 # Docker testing
 Debugging stac-fastapi-pgstac with docker (need to figure out networking to openshift)
 ? 
 would this flag work  
 --add-host=host.docker.internal:host-gateway
 
-```
+```shell
 docker build -t bc-stac-api .
 docker run \
     -p 8080:8080 \
@@ -60,26 +86,7 @@ docker run \
     bc-stac-api
 ```
 Debug from inside container
-```
+```shell
 docker run -it --env-file=./.env bc-stac-api bash
 uvicorn stac_fastapi.pgstac.app:app --host 127.0.0.1 --port 8080
 ```
-
-
-### Migrations - this needs to be done on database init
-
-There is a Python utility as part of PgSTAC ([pypgstac](https://stac-utils.github.io/pgstac/pypgstac/)) that includes a migration utility.
-To use:
-
-```shell
-pypgstac migrate
-```
-### Bulk Loading
-
-There is a Python utility for bulk load of STAC collections and items
-
-```shell
-pypgstac load collections collection.ndjson
-pypgstac load items items.json
-''''
-
