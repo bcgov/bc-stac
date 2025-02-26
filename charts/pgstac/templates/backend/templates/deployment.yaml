@@ -34,7 +34,7 @@ spec:
           securityContext:
             {{- toYaml .Values.backend.securityContext | nindent 12 }}
           {{- end }}
-          image: "{{.Values.backend.image.registry}}/{{.Values.backend.image.repository}}/backend:{{.Values.backend.image.tag}}"
+          image: "{{.Values.backend.image.registry}}/{{.Values.backend.image.repository}}:{{.Values.backend.image.tag}}"
           imagePullPolicy: {{ .Values.backend.imagePullPolicy }}
           envFrom:
             {{- if .Values.backend.configMap.enabled }}
