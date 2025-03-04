@@ -1,0 +1,41 @@
+{
+        metrics
+        auto_https off
+        admin 0.0.0.0:3003
+}
+
+:8080 {
+        reverse_proxy {$BACKEND_URL} {
+                header_up Host {http.reverse_proxy.upstream.hostport}
+                header_up X-Real-IP {remote_host}
+        }
+
+        header {
+                Access-Control-Allow-Origin *
+                Access-Control-Allow-Methods "GET, POST, PUT"
+                Access-Control-Allow-Headers "Content-Type, Authorization"
+                Access-Control-Allow-Credentials "true"
+        }
+
+        # Handle OPTIONS requests for preflight
+        handle_path / {
+                @options {
+                        method OPTIONS
+                }
+                handle @options {
+                        respond 204
+                }
+        }
+
+        log {
+                output stdout
+                format console
+                level {$LOG_LEVEL}
+        }
+
+}
+:3001 {
+	handle /health {
+		respond "OK"
+	}
+}
