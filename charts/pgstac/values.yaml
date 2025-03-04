@@ -92,7 +92,11 @@ frontend:
   enabled: true
   # -- the deployment strategy, can be "Recreate" or "RollingUpdate"
   deploymentStrategy: Recreate
-
+  image:
+    registry: ghcr.io
+    repository: bcgov/bcstac/frontend
+    tag: latest # Or a specific tag
+    pullPolicy: Always
   #-- autoscaling for the component. it is optional and is an object.
   autoscaling:
     #-- enable or disable autoscaling.
@@ -103,6 +107,12 @@ frontend:
     maxReplicas: 7
     #-- the target cpu utilization percentage, is from request cpu and NOT LIMIT CPU.
     targetCPUUtilizationPercentage: 80
+  
+  # Config map
+  configMap:
+    enabled: false
+    #data:
+      #APP_HOST: 0.0.0.0
   #-- the service for the component. for inter namespace communication, use the service name as the hostname.
   service:
     #-- enable or disable the service.
