@@ -5,7 +5,7 @@ RUN apk add --no-cache ca-certificates
 
 #Copy Caddy files
 COPY Caddyfile /etc/caddy/Caddyfile
-RUN caddy fmt /etc/caddy/Caddyfile
+RUN caddy fmt --overwrite /etc/caddy/Caddyfile
 
 # Boilerplate, not used in OpenShift/Kubernetes
 EXPOSE 8082 3001
