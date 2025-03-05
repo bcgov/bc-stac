@@ -127,7 +127,7 @@ frontend:
         #-- the port for the service. the service will be accessible on this port within the namespace.
         port: 80
         #-- the container port where the application is listening on
-        targetPort: 80
+        targetPort: 8080
         #-- the protocol for the port. it can be TCP or UDP. TCP is the default and is recommended.
         protocol: TCP
       - port: 3003
@@ -136,7 +136,7 @@ frontend:
         name: metrics
   route:
     timeout: 30s
-    targetPort: 8080 # match the service
+    targetPort: 80 # match the service
   ingress:
     annotations:
       route.openshift.io/termination: "edge"

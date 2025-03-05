@@ -2,6 +2,7 @@
 # Deploy using Caddy to host static files
 FROM caddy:2.9.1-alpine
 RUN apk add --no-cache ca-certificates
+RUN apk add --no-cache curl
 
 #Copy Caddy files
 COPY Caddyfile /etc/caddy/Caddyfile

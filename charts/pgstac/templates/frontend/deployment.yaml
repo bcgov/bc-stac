@@ -43,7 +43,7 @@ spec:
             {{- end }}
           env:
             - name: BACKEND_URL
-              value: "http://{{ .Release.Name }}-backend"
+              value: "{{ .Release.Name }}-backend.cceaa4-test.svc.cluster.local"
             - name: LOG_LEVEL
               value: "info"
           ports:
