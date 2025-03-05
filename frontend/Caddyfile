@@ -30,7 +30,7 @@
         log {
                 output stdout
                 format console
-                level $LOG_LEVEL
+                level {$LOG_LEVEL}
         }
 
 }
