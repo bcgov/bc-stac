@@ -100,14 +100,16 @@ frontend:
   #-- autoscaling for the component. it is optional and is an object.
   autoscaling:
     #-- enable or disable autoscaling.
-    enabled: true
+    enabled: false
     #-- the minimum number of replicas.
     minReplicas: 3
     #-- the maximum number of replicas.
     maxReplicas: 7
     #-- the target cpu utilization percentage, is from request cpu and NOT LIMIT CPU.
     targetCPUUtilizationPercentage: 80
-  
+  securityContext:
+    capabilities:
+      add: [ "NET_BIND_SERVICE" ]
   # Config map
   configMap:
     enabled: false
@@ -123,7 +125,7 @@ frontend:
     ports:
       - name: http
         #-- the port for the service. the service will be accessible on this port within the namespace.
-        port: 80
+        port: 8080
         #-- the container port where the application is listening on
         targetPort: 8080
         #-- the protocol for the port. it can be TCP or UDP. TCP is the default and is recommended.
