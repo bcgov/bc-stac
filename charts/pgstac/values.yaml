@@ -134,6 +134,9 @@ frontend:
         targetPort: 3003
         protocol: TCP
         name: metrics
+  route:
+    timeout: 30s
+    targetPort: 8080 # match the service
   ingress:
     annotations:
       route.openshift.io/termination: "edge"
