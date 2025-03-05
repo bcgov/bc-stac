@@ -57,26 +57,26 @@ spec:
               mountPath: /data
             - name: config
               mountPath: /config
-          readinessProbe:
-            httpGet:
-              path: /health
-              port: http
-              scheme: HTTP
-            initialDelaySeconds: 5
-            periodSeconds: 2
-            timeoutSeconds: 2
-            successThreshold: 1
-            failureThreshold: 30
-          livenessProbe:
-            successThreshold: 1
-            failureThreshold: 3
-            httpGet:
-              path: /health
-              port: 3001
-              scheme: HTTP
-            initialDelaySeconds: 15
-            periodSeconds: 30
-            timeoutSeconds: 5
+          # readinessProbe:
+          #   httpGet:
+          #     path: /health
+          #     port: http
+          #     scheme: HTTP
+          #   initialDelaySeconds: 5
+          #   periodSeconds: 2
+          #   timeoutSeconds: 2
+          #   successThreshold: 1
+          #   failureThreshold: 30
+          # livenessProbe:
+          #   successThreshold: 1
+          #   failureThreshold: 3
+          #   httpGet:
+          #     path: /health
+          #     port: 3001
+          #     scheme: HTTP
+          #   initialDelaySeconds: 15
+          #   periodSeconds: 30
+          #   timeoutSeconds: 5
 
       {{- with .Values.frontend.nodeSelector }}
       nodeSelector:
