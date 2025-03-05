@@ -33,9 +33,9 @@
                 level {$LOG_LEVEL}
         }
 
-}
-:3001 {
-	handle /health {
-		respond "OK"
-	}
-}
+// }
+// :3001 {
+// 	handle /health {
+// 		respond "OK"
+// 	}
+// }

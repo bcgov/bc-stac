@@ -52,6 +52,11 @@ spec:
               containerPort: {{ .targetPort }}
               protocol: {{ .protocol | default "TCP" }}
             {{- end }}
+          volumeMounts:
+            - name: data
+              mountPath: /data
+            - name: config
+              mountPath: /config
           readinessProbe:
             httpGet:
               path: /health
@@ -67,7 +72,7 @@ spec:
             failureThreshold: 3
             httpGet:
               path: /health
-              port: 3000
+              port: 3001
               scheme: HTTP
             initialDelaySeconds: 15
             periodSeconds: 30
@@ -81,6 +86,11 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      volumes:
+        - name: data
+          emptyDir: {}
+        - name: config
+          emptyDir: {}
       affinity:
         podAntiAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
