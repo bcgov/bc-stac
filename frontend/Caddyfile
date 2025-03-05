@@ -34,8 +34,3 @@
         }
 
 }
-// :3001 {
-// 	handle /health {
-// 		respond "OK"
-// 	}
-// }
