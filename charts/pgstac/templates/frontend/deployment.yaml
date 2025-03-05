@@ -49,9 +49,11 @@ spec:
             - name: LOG_LEVEL
               value: "info"
           ports:
-            - name: http
-              containerPort: {{ .Values.frontend.service.targetPort }}
-              protocol: TCP
+            {{- range .Values.frontend.service.ports }}
+            - name: {{ .name | default (printf "port-%d" .port) }}
+              containerPort: {{ .targetPort }}
+              protocol: {{ .protocol | default "TCP" }}
+            {{- end }}
           readinessProbe:
             httpGet:
               path: /health
