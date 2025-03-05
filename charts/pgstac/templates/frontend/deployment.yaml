@@ -42,8 +42,6 @@ spec:
                 name: {{ .Release.Name }}-config
             {{- end }}
           env:
-            - name: LOG_LEVEL
-              value: info
             - name: BACKEND_URL
               value: "http://{{ .Release.Name }}-backend"
             - name: LOG_LEVEL

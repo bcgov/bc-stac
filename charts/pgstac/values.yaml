@@ -94,7 +94,7 @@ frontend:
   deploymentStrategy: Recreate
   image:
     registry: ghcr.io
-    repository: bcgov/bcstac/frontend
+    repository: bcgov/bc-stac/frontend
     tag: latest # Or a specific tag
     pullPolicy: Always
   #-- autoscaling for the component. it is optional and is an object.
