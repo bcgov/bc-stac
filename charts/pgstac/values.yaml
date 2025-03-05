@@ -125,9 +125,9 @@ frontend:
     ports:
       - name: http
         #-- the port for the service. the service will be accessible on this port within the namespace.
-        port: 8080
+        port: 80
         #-- the container port where the application is listening on
-        targetPort: 8080
+        targetPort: 80
         #-- the protocol for the port. it can be TCP or UDP. TCP is the default and is recommended.
         protocol: TCP
       - port: 3003
