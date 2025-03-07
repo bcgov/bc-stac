@@ -89,7 +89,7 @@ backend:
 
 frontend:
   # -- enable or disable a component deployment.
-  enabled: true
+  enabled: false
   # -- the deployment strategy, can be "Recreate" or "RollingUpdate"
   deploymentStrategy: Recreate
   image:
