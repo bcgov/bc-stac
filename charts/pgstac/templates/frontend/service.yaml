@@ -1,0 +1,20 @@
+{{- if .Values.frontend.service.enabled }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "frontend.fullname" . }}
+  labels:
+    {{- include "frontend.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.frontend.service.type }}
+  ports:
+    {{- range .Values.frontend.service.ports }}
+    - name: {{ .name | default (printf "port-%d" .port) }} # Fallback name
+      port: {{ .port }}
+      targetPort: {{ .targetPort }}
+      protocol: {{ .protocol | default "TCP" }} # Fallback protocol
+    {{- end }}
+  selector:
+    {{- include "frontend.selectorLabels" . | nindent 4 }}
+{{- end }}
