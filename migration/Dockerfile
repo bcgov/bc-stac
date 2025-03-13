@@ -20,4 +20,4 @@ COPY . /src
 
 RUN python -m pip install pypgstac[psycopg]
 
-CMD migrate.sh
+CMD ./migrate.sh
