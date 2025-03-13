@@ -10,7 +10,7 @@ jobs:
     strategy:
       matrix:
         # package: [backend, frontend, migrations]
-        package: [backend, migrations]
+        package: [migrations]
     timeout-minutes: 10
     steps:
       - uses: bcgov-nr/action-builder-ghcr@v2.3.0
