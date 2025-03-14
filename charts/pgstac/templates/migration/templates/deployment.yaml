@@ -1,0 +1,122 @@
+{{- if .Values.migration.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "migration.fullname" . }}
+  labels:
+    {{- include "migration.labels" . | nindent 4 }}
+spec:
+  strategy:
+    type: {{ .Values.migration.deploymentStrategy }}
+  {{- if not .Values.migration.autoscaling.enabled }}
+  replicas: {{ .Values.migration.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "migration.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      annotations:
+        rollme: {{ randAlphaNum 5 | quote }}
+        prometheus.io/scrape: 'true'
+        prometheus.io/port: '3000'
+        prometheus.io/path: '/api/metrics'
+      labels:
+        {{- include "migration.labels" . | nindent 8 }}
+    spec:
+      {{- if .Values.migration.podSecurityContext }}
+      securityContext:
+        {{- toYaml .Values.migration.podSecurityContext | nindent 12 }}
+      {{- end }}
+      containers:
+        - name: {{ include "migration.fullname" . }}
+          {{- if .Values.migration.securityContext }}
+          securityContext:
+            {{- toYaml .Values.migration.securityContext | nindent 12 }}
+          {{- end }}
+          image: "{{.Values.migration.image.registry}}/{{.Values.migration.image.repository}}:{{.Values.migration.image.tag}}"
+          imagePullPolicy: {{ .Values.migration.imagePullPolicy }}
+          envFrom:
+            {{- if .Values.migration.configMap.enabled }}
+            - configMapRef:
+                name: {{ .Release.Name }}-config
+            {{- end }}
+          env:
+            - name: LOG_LEVEL
+              value: info
+            - name: PGDATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: {{.Release.Name}}-backend
+                  key: POSTGRES_DATABASE
+            - name: PGUSER
+              valueFrom:
+                secretKeyRef:
+                  name: {{.Release.Name}}-backend
+                  key: POSTGRES_USER
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{.Release.Name}}-database
+                  key: password
+            - name: POSTGRES_HOST_READER
+              value: {{ include "fullname" . }}-bitnamipg
+            - name: POSTGRES_HOST_WRITER
+              value: {{ include "fullname" . }}-bitnamipg
+            - name: PGHOST
+              value: {{ include "fullname" . }}-bitnamipg
+            # - name: PGPORT
+            #   value: {{ .Values.migration.configMap.data.PGPORT}} # configmap might be better
+          ports:
+            - name: http
+              containerPort: {{ .Values.migration.service.targetPort }}
+              protocol: TCP
+          # readinessProbe:
+          #   httpGet:
+          #     path: /api/health
+          #     port: http
+          #     scheme: HTTP
+          #   initialDelaySeconds: 5
+          #   periodSeconds: 2
+          #   timeoutSeconds: 2
+          #   successThreshold: 1
+          #   failureThreshold: 30
+          # livenessProbe:
+          #   successThreshold: 1
+          #   failureThreshold: 3
+          #   httpGet:
+          #     path: /api/health
+          #     port: 3000
+          #     scheme: HTTP
+          #   initialDelaySeconds: 15
+          #   periodSeconds: 30
+          #   timeoutSeconds: 5
+          resources: # this is optional
+            requests:
+              {{- toYaml .Values.migration.resources.requests | nindent 12 }}
+            limits:
+              {{- toYaml .Values.migration.resources.limits | nindent 12 }}
+      {{- with .Values.migration.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.migration.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: app.kubernetes.io/name
+                    operator: In
+                    values:
+                      - {{ include "migration.fullname" . }}
+                  - key: app.kubernetes.io/instance
+                    operator: In
+                    values:
+                      - {{ .Release.Name }}
+              topologyKey: "kubernetes.io/hostname"
+
+{{- end }}
