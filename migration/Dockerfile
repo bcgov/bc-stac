@@ -20,4 +20,4 @@ COPY . /src
 
 RUN python -m pip install pypgstac[psycopg]
 
-CMD sh migrate.sh
+CMD ./wait-for-it.sh $APP_HOST:5432 -t 240 && sh migrate.sh
