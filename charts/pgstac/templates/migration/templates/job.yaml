@@ -8,9 +8,6 @@ metadata:
 spec:
   strategy:
     type: {{ .Values.migration.deploymentStrategy }}
-  {{- if not .Values.migration.autoscaling.enabled }}
-  replicas: {{ .Values.migration.replicaCount }}
-  {{- end }}
   selector:
     # matchLabels:
     #   {{- include "migration.selectorLabels" . | nindent 6 }}
@@ -65,10 +62,6 @@ spec:
               value: {{ include "fullname" . }}-bitnamipg
             - name: PGHOST
               value: {{ include "fullname" . }}-bitnamipg
-          ports:
-            - name: http
-              containerPort: {{ .Values.migration.service.targetPort }}
-              protocol: TCP
           resources: # this is optional
             requests:
               {{- toYaml .Values.migration.resources.requests | nindent 12 }}

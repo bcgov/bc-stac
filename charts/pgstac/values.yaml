@@ -144,37 +144,13 @@ migration:
     repository: bcgov/bc-stac/migration
     tag: latest # Or a specific tag
     pullPolicy: Always
-  autoscaling:
-    #-- enable or disable autoscaling.
-    enabled: false
-    #-- the minimum number of replicas.
-    minReplicas: 3
-    #-- the maximum number of replicas.
-    maxReplicas: 7
-    #-- the target cpu utilization percentage, is from request cpu and NOT LIMIT CPU.
-    targetCPUUtilizationPercentage: 80
-  #-- vault, for injecting secrets from vault. it is optional and is an object. it creates an initContainer which reads from vault and app container can source those secrets. for referring to a working example with vault follow this link: https://github.com/bcgov/onroutebc/blob/main/charts/onroutebc/values.yaml#L171-L186
-
   resources:
     requests:
       cpu: 150m
       memory: 100Mi
     limits:
       cpu: 250m
-      memory: 500Mi
-  #-- the service for the component. for inter namespace communication, use the service name as the hostname.
-  service:
-    # WB - NOT USED
-    #-- the type of the service. it can be ClusterIP, NodePort, LoadBalancer, ExternalName. ClusterIP is the default and is recommended.
-    type: ClusterIP
-    port: 8080 # this is the service port, where it will be exposed internal to the namespace.
-    targetPort: 5432 # this is container port where app listens on
-  route:
-    timeout: 300s
-    targetPort: 8080 # match the service
-  pdb:
-    enabled: false # enable it in PRODUCTION for having pod disruption budget.
-    minAvailable: 1 # the minimum number of pods that must be available during the disruption budget.
+      memory: 250Mi
   configMap:
     enabled: true
     data:
