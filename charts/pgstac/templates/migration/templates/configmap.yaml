@@ -1,0 +1,10 @@
+{{- if .Values.migration.configMap.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "migration.fullname" . }}-config
+data:
+{{- range $key, $value := .Values.migration.configMap.data }}
+  {{ $key }}: {{ $value | quote }}
+{{- end }}
+{{- end }}

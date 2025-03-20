@@ -1,0 +1,14 @@
+{{- if and .Values.migration.pdb  .Values.migration.pdb.enabled }}
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: {{ include "migration.fullname" . }}
+  labels:
+    {{- include "migration.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "migration.selectorLabels" . | nindent 6 }}
+  minAvailable: {{ .Values.migration.pdb.minAvailable }}
+{{- end }}

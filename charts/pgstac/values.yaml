@@ -168,7 +168,7 @@ migration:
     #-- the type of the service. it can be ClusterIP, NodePort, LoadBalancer, ExternalName. ClusterIP is the default and is recommended.
     type: ClusterIP
     port: 8080 # this is the service port, where it will be exposed internal to the namespace.
-    targetPort: 8080 # this is container port where app listens on
+    targetPort: 5432 # this is container port where app listens on
   route:
     timeout: 300s
     targetPort: 8080 # match the service
@@ -189,5 +189,5 @@ migration:
       # DB_MAX_CONN_SIZE: 1
       # USE_API_HYDRATE: false
       PGPORT: 5432
-      PGUSER: "postres"
-      PGPASSWORD: "quickpass"
+      # PGUSER: "postgres"
+      # PGPASSWORD: "quickpass"
