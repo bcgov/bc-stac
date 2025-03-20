@@ -65,32 +65,10 @@ spec:
               value: {{ include "fullname" . }}-bitnamipg
             - name: PGHOST
               value: {{ include "fullname" . }}-bitnamipg
-            # - name: PGPORT
-            #   value: {{ .Values.migration.configMap.data.PGPORT}} # configmap might be better
           ports:
             - name: http
               containerPort: {{ .Values.migration.service.targetPort }}
               protocol: TCP
-          # readinessProbe:
-          #   httpGet:
-          #     path: /api/health
-          #     port: http
-          #     scheme: HTTP
-          #   initialDelaySeconds: 5
-          #   periodSeconds: 2
-          #   timeoutSeconds: 2
-          #   successThreshold: 1
-          #   failureThreshold: 30
-          # livenessProbe:
-          #   successThreshold: 1
-          #   failureThreshold: 3
-          #   httpGet:
-          #     path: /api/health
-          #     port: 3000
-          #     scheme: HTTP
-          #   initialDelaySeconds: 15
-          #   periodSeconds: 30
-          #   timeoutSeconds: 5
           resources: # this is optional
             requests:
               {{- toYaml .Values.migration.resources.requests | nindent 12 }}

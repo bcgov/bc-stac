@@ -178,16 +178,5 @@ migration:
   configMap:
     enabled: true
     data:
-      # APP_HOST: 0.0.0.0
       POSTGRES_DBNAME: "bcstac"
-      POSTGRES_PORT: 5432
-      # WEB_CONCURRENCY: 10
-      # VSI_CACHE: TRUE
-      # GDAL_HTTP_MERGE_CONSECUTIVE_RANGES: YES
-      # GDAL_DISABLE_READDIR_ON_OPEN: "EMPTY_DIR"
-      # DB_MIN_CONN_SIZE: 1
-      # DB_MAX_CONN_SIZE: 1
-      # USE_API_HYDRATE: false
       PGPORT: 5432
-      # PGUSER: "postgres"
-      # PGPASSWORD: "quickpass"
