@@ -178,7 +178,7 @@ migration:
   configMap:
     enabled: true
     data:
-      APP_HOST: 0.0.0.0
+      # APP_HOST: 0.0.0.0
       POSTGRES_DBNAME: "bcstac"
       POSTGRES_PORT: 5432
       # WEB_CONCURRENCY: 10
