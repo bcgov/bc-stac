@@ -39,7 +39,7 @@ spec:
           envFrom:
             {{- if .Values.backend.configMap.enabled }}
             - configMapRef:
-                name: {{ .Release.Name }}-config
+                name: {{ include "backend.fullname" . }}-config
             {{- end }}
           env:
             - name: LOG_LEVEL
