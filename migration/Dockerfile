@@ -22,4 +22,4 @@ RUN python -m pip install pypgstac[psycopg]
 
 RUN chmod +x wait-for-it.sh
 
-CMD ./wait-for-it.sh $APP_HOST:5432 -t 240 && sh migrate.sh
+CMD ./wait-for-it.sh $APP_HOST:5432 -t 120 ; sh migrate.sh
