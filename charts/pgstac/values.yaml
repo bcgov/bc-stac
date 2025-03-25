@@ -117,7 +117,7 @@ bitnamipg:
       storageClass: netapp-block-standard
       accessModes:
         - ReadWriteOnce
-      size: 100Mi
+      size: 500Mi
     containerSecurityContext:
       enabled: false
     podSecurityContext:
